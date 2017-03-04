@@ -1,0 +1,25 @@
+{
+  "name": "AIchat",
+  "version": "1.0.0",
+  "description": "AI chat demo",
+  "scripts": {
+    "gulp": "gulp"
+  },
+  "author": "DH",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.0",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.5.2",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-less": "^3.3.0",
+    "gulp-livereload": "^3.8.1",
+    "gulp-rev-all": "^0.9.7",
+    "gulp-sass": "^3.1.0",
+    "path": "^0.12.7",
+    "socket.io": "^1.7.3"
+  },
+  "devDependencies": {
+    "gulp-babel": "^6.1.2"
+  }
+}

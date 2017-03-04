@@ -1,0 +1,102 @@
+body{
+    background-color: #e5e5e5;
+    height: 100%;
+}
+.app{
+    height: 100%;
+}
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: rpx(30px);
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    line-height: rpx(30px);
+    font-size: rpx(18px);
+    z-index: 2;
+}
+.list{
+    padding-top: rpx(30px);
+    padding-bottom: rpx(90px);
+    .dialog{
+        overflow: hidden;
+        margin: rpx(4px);
+        padding: rpx(4px);
+        font-size: rpx(14px);
+        i{
+            display: inline-block;
+            background-color: #ccc;
+            width: rpx(30px);
+            height: rpx(30px);
+            line-height: rpx(30px);
+            text-align: center;
+            border-radius: rpx(8px);
+            vertical-align: top;
+        }
+        span{
+            position: relative;
+            display: inline-block;
+            background-color: #ff9e6f;
+            margin: 0 rpx(8px);
+            padding: rpx(4px);
+            max-width: 71%;
+            min-width: rpx(10px);
+            min-height: rpx(14px);
+            border-radius: rpx(4px);
+            &::before{
+                content:'';
+                position:absolute;
+                top:rpx(5px);
+                left:rpx(-10px);
+                width:0;
+                height:0;
+                font-size:0;
+                border:solid rpx(5px);
+                border-color:transparent #ff9e6f transparent  transparent;
+            }
+        }
+    }
+    .user{
+        text-align: right;
+        i{
+            float:right;
+        }
+        span{
+            background-color: #66ccff;
+            &::before{
+                left:auto;
+                right:rpx(-10px);
+                border-color:transparent transparent transparent #66ccff;
+            }
+        }
+    }
+}
+
+.send{
+    position: fixed;
+    bottom:0;
+    left:0;
+    width: 100%;
+    z-index: 2;
+    input{
+        display: inline-block;
+        width: 100%;
+        height: rpx(30px);
+        text-indent: rpx(6px);
+        font-size:rpx(14px);
+        border:1px solid #cccdce;
+    }
+    button{
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: rpx(60px);
+        height: rpx(30px);
+        background-color: #069dd5;
+        color: #fff;
+        border:none;
+    }
+}
