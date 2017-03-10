@@ -3,13 +3,13 @@
   <meta charset="utf-8">
   <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <title>AI聊天</title>
+  <title>AI聊天(socket.io版)</title>
   <meta name="author" content="denghao.me">
   <link rel="stylesheet" href="dist/css/style.css">
 </head>
 <body>
 <div id="app" class="app">
-    <header>AI聊天</header>
+    <header>AI聊天(socket.io版)</header>
     <div id="list" class="list">
         <div v-for="o in list" class="dialog {{o.name==userName?'user':''}}"><i>{{o.name}}</i><span>{{o.txt}}</span></div>
     </div>

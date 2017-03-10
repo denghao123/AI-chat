@@ -1,0 +1,276 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>AI聊天(ajax版)</title>
+  <meta name="author" content="denghao.me">
+<style>
+/*vars*/
+/*css reset*/
+body, nav, dl, dt, dd, p, h1, h2, h3, h4, ul, ol, li, input, button, textarea, footer {
+  margin: 0;
+  padding: 0; }
+
+body {
+  font: 16px/1.5 'Microsoft Yahei','Simsun';
+  color: #333;
+  background: #fff;
+  -webkit-text-size-adjust: none;
+  min-width: 320px; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%; }
+
+form {
+  display: inline; }
+
+ul, ol {
+  list-style: none; }
+
+i, em {
+  font-style: normal; }
+
+a {
+  text-decoration: none;
+  color: #1a1a1a; }
+
+a:hover, a:active, a:focus {
+  color: #1c5aa2;
+  text-decoration: none; }
+
+a:active {
+  color: #aaa; }
+
+img {
+  vertical-align: middle;
+  border: 0;
+  -ms-interpolation-mode: bicubic; }
+
+button, input, select, textarea {
+  font-size: 100%;
+  vertical-align: middle;
+  outline: none; }
+
+textarea {
+  resize: none; }
+
+button, input[type="button"], input[type="reset"], input[type="submit"] {
+  cursor: pointer;
+  -webkit-appearance: button;
+  -moz-appearance: button; }
+
+input:focus:-moz-placeholder, input:focus::-webkit-input-placeholder {
+  color: transparent; }
+
+button::-moz-focus-inner, input::-moz-focus-inner {
+  padding: 0;
+  border: 0; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+.fl {
+  float: left; }
+
+.fr {
+  float: right; }
+
+.hide {
+  display: none; }
+
+.show {
+  display: block; }
+
+.ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden; }
+
+.break {
+  word-break: break-all;
+  word-wrap: break-word; }
+
+header, footer, article, section, nav, menu, hgroup {
+  display: block;
+  clear: all; }
+
+html {
+  font-size: 10px; }
+
+/*functions*/
+body {
+  background-color: #e5e5e5;
+  height: 100%; }
+
+.app {
+  height: 100%; }
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3rem;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  line-height: 3rem;
+  font-size: 1.8rem;
+  z-index: 2; }
+
+.list {
+  padding-top: 3rem;
+  padding-bottom: 9rem; }
+  .list .dialog {
+    overflow: hidden;
+    margin: 0.4rem;
+    padding: 0.4rem;
+    font-size: 1.4rem; }
+    .list .dialog i {
+      display: inline-block;
+      background-color: #ccc;
+      width: 3rem;
+      height: 3rem;
+      line-height: 3rem;
+      text-align: center;
+      border-radius: 0.8rem;
+      vertical-align: top; }
+    .list .dialog span {
+      position: relative;
+      display: inline-block;
+      background-color: #ff9e6f;
+      margin: 0 0.8rem;
+      padding: 0.4rem;
+      max-width: 71%;
+      min-width: 1rem;
+      min-height: 1.4rem;
+      border-radius: 0.4rem; }
+      .list .dialog span::before {
+        content: '';
+        position: absolute;
+        top: 0.5rem;
+        left: -1rem;
+        width: 0;
+        height: 0;
+        font-size: 0;
+        border: solid 0.5rem;
+        border-color: transparent #ff9e6f transparent  transparent; }
+  .list .user {
+    text-align: right; }
+    .list .user i {
+      float: right; }
+    .list .user span {
+      background-color: #66ccff; }
+      .list .user span::before {
+        left: auto;
+        right: -1rem;
+        border-color: transparent transparent transparent #66ccff; }
+
+.send {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2; }
+  .send input {
+    display: inline-block;
+    width: 100%;
+    height: 3rem;
+    text-indent: 0.6rem;
+    font-size: 1.4rem;
+    border: 1px solid #cccdce; }
+  .send button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 6rem;
+    height: 3rem;
+    background-color: #069dd5;
+    color: #fff;
+    border: none; }
+
+</style>
+</head>
+<body>
+<div id="app" class="app">
+    <header>AI聊天(ajax版)</header>
+    <div id="list" class="list">
+        <div v-for="o in list" class="dialog {{o.name==userName?'user':''}}"><i>{{o.name}}</i><span>{{o.txt}}</span></div>
+    </div>
+    <div class="send">
+        <input v-model="input" type="text" @keyup.enter="send">
+        <button @click="send()">发送</button>    
+    </div>
+</div>
+</body>
+<script src="http://apps.bdimg.com/libs/zepto/1.1.4/zepto.min.js"></script>
+<script src="http://apps.bdimg.com/libs/vue/1.0.14/vue.js"></script>
+<script>
+var vm = new Vue({
+    el: "#app",
+    data: {
+        list: [],
+        input: "",
+        userName: ""
+    },
+
+    ready() {
+        this.createUser();
+        this.list = [{
+            name: "AI",
+            txt: "hi,我是小i"
+        }];
+    },
+
+    methods: {
+        createUser() {
+            var names = ["刘禅", "庄周", "韩信", "墨子", "李白", "貂蝉", "妲己", "小乔", "后羿", "张良", "荆轲", "达摩", ];
+            this.userName = names[parseInt(names.length * Math.random())];
+        },
+
+        send() {
+            var self = this;
+            if (self.input) {
+                self.list.push({
+                    name: self.userName,
+                    txt: self.input
+                });
+
+                $.ajax({
+                    url: "http://api.jisuapi.com/iqa/query?appkey=fb594ae54c4a8fc7&question="+encodeURI(self.input),
+                    type: 'get',
+                    dataType: 'jsonp',
+                    jsonp: "callback",
+                    jsonpCallback: "cb",
+                    success: function(data) {
+                        if (data.msg === 'ok') {
+                            self.list.push({
+                                name: "AI",
+                                txt: data.result.content
+                            })
+                        }else{
+                            self.list.push({
+                                name: "AI",
+                                txt: "服务器没有正确回应。"
+                            })
+                        }
+                        self.scrollToBottom();
+                        self.input = "";
+                    }
+                })
+            } else {
+                alert("请输入内容");
+            }
+        },
+
+        scrollToBottom() {
+            var list = document.getElementById('list');
+            window.scrollTo(0, list.clientHeight);
+        }
+    }
+})
+
+</script>
+</html>
